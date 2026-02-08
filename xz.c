@@ -30,75 +30,18 @@
 #include "utils.h"
 #include "php_xz.h"
 
+#if PHP_VERSION_ID >= 80000
+# include "xz_arginfo.h"
+#else
+# include "xz_legacy_arginfo.h"
+#endif
+
 /* For compatibility with older PHP versions */
 #ifndef ZEND_PARSE_PARAMETERS_NONE
 #define ZEND_PARSE_PARAMETERS_NONE() \
 	ZEND_PARSE_PARAMETERS_START(0, 0) \
 	ZEND_PARSE_PARAMETERS_END()
 #endif
-
-/* {{{ arginfo */
-ZEND_BEGIN_ARG_INFO(arginfo_xzread, 0)
-	ZEND_ARG_INFO(0, fp)
-	ZEND_ARG_INFO(0, length)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_xzwrite, 0, 0, 2)
-	ZEND_ARG_INFO(0, fp)
-	ZEND_ARG_INFO(0, str)
-	ZEND_ARG_INFO(0, length)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO(arginfo_xzclose, 0)
-	ZEND_ARG_INFO(0, fp)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO(arginfo_xzpassthru, 0)
-	ZEND_ARG_INFO(0, fp)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO(arginfo_xzencode, 0)
-	ZEND_ARG_INFO(0, str)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO(arginfo_xzdecode, 0)
-	ZEND_ARG_INFO(0, str)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_xzopen, 0, 0, 2)
-	ZEND_ARG_INFO(0, filename)
-	ZEND_ARG_INFO(0, mode)
-	ZEND_ARG_INFO(0, compression_level)
-ZEND_END_ARG_INFO()
-/* }}} */
-
-/* {{{ xz_functions[] */
-static const zend_function_entry xz_functions[] = {
-	PHP_FE(xzdecode, arginfo_xzdecode)
-	PHP_FE(xzopen, arginfo_xzopen)
-	PHP_FE(xzencode, arginfo_xzencode)
-	PHP_FALIAS(xzread, fread, arginfo_xzread)
-	PHP_FALIAS(xzwrite, fwrite, arginfo_xzwrite)
-	PHP_FALIAS(xzclose, fclose, arginfo_xzclose)
-	PHP_FALIAS(xzpassthru, fpassthru, arginfo_xzpassthru)
-	PHP_FE_END
-};
-/* }}} */
-
-/* {{{ xz_module_entry */
-zend_module_entry xz_module_entry = {
-	STANDARD_MODULE_HEADER,
-	"xz",
-	xz_functions,
-	PHP_MINIT(xz),
-	PHP_MSHUTDOWN(xz),
-	NULL, /* PHP_RINIT(xz) */
-	NULL, /* PHP_RSHUTDOWN(xz) */
-	PHP_MINFO(xz),
-	PHP_XZ_VERSION,
-	STANDARD_MODULE_PROPERTIES
-};
-/* }}} */
 
 /* {{{ INI entries. */
 PHP_INI_BEGIN()
@@ -184,8 +127,20 @@ PHP_FUNCTION(xzencode)
 	/* The length of the string to be encoded */
 	size_t in_len = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &in, &in_len) == FAILURE) {
+	zend_long compression_level = INI_INT("xz.compression_level");
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &in, &in_len, &compression_level) == FAILURE) {
 		return;
+	}
+
+	if (compression_level < 0 || compression_level > 9) {
+#if PHP_VERSION_ID >= 80000
+        zend_argument_value_error(2, "must be between 0 and 9");
+        RETURN_THROWS();
+#else
+        php_error_docref(NULL, E_WARNING, "compression level must be between 0 and 9");
+        RETURN_BOOL(0);
+#endif
 	}
 
 	/* The output string (encoded). */
@@ -197,7 +152,7 @@ PHP_FUNCTION(xzencode)
 	uint8_t buff[XZ_BUFFER_SIZE];
 
 	lzma_options_lzma opt_lzma2;
-	if (lzma_lzma_preset(&opt_lzma2, INI_INT("xz.compression_level"))) {
+	if (lzma_lzma_preset(&opt_lzma2, compression_level)) {
 		RETURN_BOOL(0);
 	}
 
@@ -328,6 +283,21 @@ PHP_FUNCTION(xzdecode)
 
 	RETURN_STRINGL((char *)out, out_len);
 }
+/* }}} */
+
+/* {{{ xz_module_entry */
+zend_module_entry xz_module_entry = {
+    STANDARD_MODULE_HEADER,
+    "xz",
+    ext_functions,
+    PHP_MINIT(xz),
+    PHP_MSHUTDOWN(xz),
+    NULL, /* PHP_RINIT(xz) */
+    NULL, /* PHP_RSHUTDOWN(xz) */
+    PHP_MINFO(xz),
+    PHP_XZ_VERSION,
+    STANDARD_MODULE_PROPERTIES
+};
 /* }}} */
 
 #ifdef COMPILE_DL_XZ

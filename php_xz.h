@@ -20,7 +20,7 @@
 #ifndef PHP_XZ_H
 # define PHP_XZ_H
 
-#define PHP_XZ_VERSION "1.1.4"
+#define PHP_XZ_VERSION "1.2.0"
 
 extern zend_module_entry xz_module_entry;
 extern php_stream_wrapper php_stream_xz_wrapper;
@@ -41,15 +41,6 @@ extern php_stream_wrapper php_stream_xz_wrapper;
 #ifdef ZTS
 #	include "TSRM.h"
 #endif
-
-PHP_MINIT_FUNCTION(xz);
-PHP_MSHUTDOWN_FUNCTION(xz);
-
-PHP_MINFO_FUNCTION(xz);
-
-PHP_FUNCTION(xzopen);
-PHP_FUNCTION(xzencode);
-PHP_FUNCTION(xzdecode);
 
 php_stream *php_stream_xzopen(php_stream_wrapper *wrapper, const char *path, const char *mode_pass, int options, zend_string **opened_path, php_stream_context *context STREAMS_DC);
 

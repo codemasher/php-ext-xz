@@ -23,6 +23,10 @@
 			"homepage": "https://github.com/codemasher"
 		},
 		{
+			"name": "mateuszanella",
+			"homepage": "https://github.com/mateuszanella/php-ext-xz"
+		},
+		{
 			"name": "Contributors",
 			"homepage":"https://github.com/codemasher/php-ext-xz/graphs/contributors"
 		}
