@@ -15,7 +15,7 @@ pie install codemasher/php-ext-xz
 ```
 
 Windows builds are now done automatically; you can download them from the  [releases](https://github.com/codemasher/php-ext-xz/releases).
-Copy the dll file into the `/ext` directory of your PHP installation and add the line `extension=xz-1.2.0-8.5-ts-vs17-x86_64` to your `php.ini` (whatever the filename may be, you may omit the leading "php_" and the extension), se also: [Loading an extension](https://www.php.net/manual/en/install.pecl.windows.php#install.pecl.windows.loading) in the PHP manual.
+Copy the dll file into the `/ext` directory of your PHP installation and add the line `extension=xz-1.2.0-8.5-ts-vs17-x86_64` to your `php.ini` (whatever the filename may be, you may omit the leading "php_" and the extension), see also: [Loading an extension](https://www.php.net/manual/en/install.pecl.windows.php#install.pecl.windows.loading) in the PHP manual.
 
 You can check if the extension is loaded via `phpinfo()`, or from within PHP via:
 ```php
@@ -82,7 +82,7 @@ const COMPRESSION_LEVEL = 7;
 
 $compressed = xzencode($string, COMPRESSION_LEVEL);
 
-$rh = xzopen($file, 'w', COMPRESSION_LEVEL);
+$wh = xzopen($file, 'w', COMPRESSION_LEVEL);
 ```
 
 
