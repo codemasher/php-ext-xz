@@ -20,7 +20,7 @@
 #ifndef PHP_XZ_H
 # define PHP_XZ_H
 
-#define PHP_XZ_VERSION "1.2.0"
+#define PHP_XZ_VERSION "1.2.1"
 
 extern zend_module_entry xz_module_entry;
 extern php_stream_wrapper php_stream_xz_wrapper;
