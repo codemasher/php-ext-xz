@@ -9,7 +9,7 @@ if (PHP_XZ != 'no') {
 	){
 		AC_DEFINE('HAVE_XZ', 1, 'xz support enabled');
 
-		EXTENSION('xz', 'xz.c xz_fopen_wrapper.c utils.c', true, '/D LZMA_API_STATIC /DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+		EXTENSION('xz', 'xz.c xz_fopen_wrapper.c utils.c', PHP_XZ_SHARED, '/D LZMA_API_STATIC /DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
 	}
 	else{
 		WARNING('xz not enabled; libraries and headers not found');
