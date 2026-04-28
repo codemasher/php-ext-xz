@@ -1,10 +1,17 @@
 # php-ext-xz
 
-PHP Extension providing XZ (LZMA2) compression/decompression functions.<br/>
-(see [Implement lzma (xz?) compression](https://news-web.php.net/php.internals/106654))
+PHP Extension providing XZ (LZMA2) compression/decompression functions (see [Implement lzma (xz?) compression](https://news-web.php.net/php.internals/106654)).
 
-[![Linux build](https://github.com/codemasher/php-ext-xz/workflows/Linux/badge.svg)](https://github.com/codemasher/php-ext-xz/actions/workflows/linux.yml)
-[![Windows PHP8 build](https://github.com/codemasher/php-ext-xz/workflows/Windows/badge.svg)](https://github.com/codemasher/php-ext-xz/actions/workflows/windows.yml)
+[![Linux build][gh-action-badge-linux]][gh-action-linux]
+[![Windows build][gh-action-badge-windows]][gh-action-windows]
+[![Packagist version][packagist-badge]][packagist]
+
+[gh-action-badge-linux]: https://img.shields.io/github/actions/workflow/status/codemasher/php-ext-xz/linux.yml?branch=main&logo=github&logoColor=ccc&label=Linux%20build
+[gh-action-linux]: https://github.com/codemasher/php-ext-xz/actions/workflows/linux.yml?query=branch%3Amain
+[gh-action-badge-windows]: https://img.shields.io/github/actions/workflow/status/codemasher/php-ext-xz/windows.yml?branch=main&logo=github&logoColor=ccc&label=Windows%20build
+[gh-action-windows]: https://github.com/codemasher/php-ext-xz/actions/workflows/windows.yml?query=branch%3Amain
+[packagist-badge]: https://img.shields.io/packagist/v/codemasher/php-ext-xz.svg?logo=packagist&logoColor=ccc
+[packagist]: https://packagist.org/packages/codemasher/php-ext-xz
 
 ## Installation
 
