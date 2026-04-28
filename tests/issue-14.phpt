@@ -22,4 +22,5 @@ var_dump($expected === $actual);
 
 ?>
 --EXPECTF--
+Expected size: 12360 bytes, actual size: 12360 bytes.
 bool(true)
