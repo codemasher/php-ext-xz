@@ -6,7 +6,7 @@ if(!extension_loaded('xz')){
 	exit('skip XZ extension is not loaded!');
 }
 if(getenv('SKIP_SLOW_TESTS')){
-	exit('skip slow test')
+	exit('skip slow test');
 }
 ?>
 --FILE--
