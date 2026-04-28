@@ -2,25 +2,26 @@
 Test `xzdecode` simple case
 --SKIPIF--
 <?php
-if (!extension_loaded("xz")) {
-	die("skip XZ extension is not loaded!");
+if(!extension_loaded('xz')){
+	exit('skip XZ extension is not loaded!');
 }
 ?>
 --FILE--
 <?php
 
-$str = file_get_contents(__FILE__);
-
+$str     = file_get_contents(__FILE__);
 $encoded = xzencode($str);
-print("encoding finished\n");
+echo "encoding finished\n";
 $decoded = xzdecode($encoded);
-print("decoding finished\n");
+echo "decoding finished\n";
 var_dump($str === $decoded);
 
-print("empty string\n");
-var_dump(xzdecode(""));
-print("garbage\n");
-var_dump(xzdecode("this is not XZ data"));
+echo "empty string\n";
+var_dump(xzdecode(''));
+
+echo "garbage\n";
+var_dump(xzdecode('this is not XZ data'));
+
 ?>
 --EXPECT--
 encoding finished

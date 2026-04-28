@@ -2,17 +2,19 @@
 Test `xzopen`: basic functionality.
 --SKIPIF--
 <?php
-if (!extension_loaded("xz")) {
-	die("skip XZ extension is not loaded!");
+if(!extension_loaded('xz')){
+	exit('skip XZ extension is not loaded!');
 }
 ?>
 --FILE--
 <?php
-$fh = xzopen(dirname(__FILE__) . '/001.txt.xz', 'r');
+
+$fh = xzopen(__DIR__.'/001.txt.xz', 'r');
 
 xzpassthru($fh);
 
 xzclose($fh);
+
 ?>
 --EXPECTF--
 "Three Rings for the Elven-kings under the sky,
