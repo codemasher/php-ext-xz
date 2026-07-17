@@ -257,8 +257,14 @@ PHP_FUNCTION(xzdecode)
 
 	/* Decoding the string */
 	lzma_ret status = LZMA_OK;
-	while (strm.avail_in != 0) {
-		status = lzma_code(&strm, LZMA_RUN);
+	lzma_action action = LZMA_RUN;
+	while (status != LZMA_STREAM_END) {
+
+		if (strm.avail_in == 0) {
+			action = LZMA_FINISH;
+		}
+
+		status = lzma_code(&strm, action);
 		if (status != LZMA_OK && status != LZMA_STREAM_END) {
 			if (out) {
 				efree(out);
