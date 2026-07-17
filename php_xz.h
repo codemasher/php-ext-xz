@@ -42,6 +42,10 @@ extern php_stream_wrapper php_stream_xz_wrapper;
 #	include "TSRM.h"
 #endif
 
+#if PHP_VERSION_ID < 80600
+# define zend_ini_long_literal(name) zend_ini_long((name), sizeof("" name) - 1, 0)
+#endif
+
 php_stream *php_stream_xzopen(php_stream_wrapper *wrapper, const char *path, const char *mode_pass, int options, zend_string **opened_path, php_stream_context *context STREAMS_DC);
 
 #endif	/* PHP_XZ_H */
