@@ -366,8 +366,8 @@ php_stream_ops php_stream_xzio_ops = {
 php_stream *php_stream_xzopen(php_stream_wrapper *wrapper, const char *path, const char *mode_pass, int options, zend_string **opened_path, php_stream_context *context STREAMS_DC)
 {
 	char mode[64];
-	zend_ulong level = INI_INT("xz.compression_level");;
-	zend_ulong mem = INI_INT("xz.max_memory");
+	zend_ulong level = zend_ini_long_literal("xz.compression_level");;
+	zend_ulong mem = zend_ini_long_literal("xz.max_memory");
 
 	php_stream *stream = NULL, *innerstream = NULL;
 

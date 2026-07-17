@@ -99,7 +99,7 @@ PHP_FUNCTION(xzopen)
 {
 	char *filename = NULL, *mode = NULL;
 	zend_long filename_len = 0, mode_len = 0;
-	zend_ulong compression_level = INI_INT("xz.compression_level");
+	zend_ulong compression_level = zend_ini_long_literal("xz.compression_level");
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss|l", &filename, &filename_len, &mode, &mode_len, &compression_level) == FAILURE) {
 		return;
@@ -127,7 +127,7 @@ PHP_FUNCTION(xzencode)
 	/* The length of the string to be encoded */
 	size_t in_len = 0;
 
-	zend_long compression_level = INI_INT("xz.compression_level");
+	zend_long compression_level = zend_ini_long_literal("xz.compression_level");
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &in, &in_len, &compression_level) == FAILURE) {
 		return;
@@ -242,7 +242,7 @@ PHP_FUNCTION(xzdecode)
 
 	/* Initializing decoder. */
 	lzma_stream strm = LZMA_STREAM_INIT;
-	uint64_t mem = INI_INT("xz.max_memory");
+	uint64_t mem = zend_ini_long_literal("xz.max_memory");
 	if (lzma_auto_decoder(&strm, mem ? mem : UINT64_MAX, LZMA_CONCATENATED) != LZMA_OK) {
 		RETURN_BOOL(0);
 	}
